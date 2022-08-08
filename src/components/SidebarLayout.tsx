@@ -3,10 +3,8 @@ import { Fragment, ReactNode, useMemo, useState } from 'react'
 import {
   HiMenu,
   HiOutlineBookOpen,
-  HiOutlineCash,
   HiOutlineDocumentSearch,
   HiOutlineExternalLink,
-  HiOutlineUserGroup,
   HiX
 } from 'react-icons/hi'
 
@@ -34,22 +32,10 @@ const SidebarLayout = ({ children }: Props) => {
         current: pathname === '/'
       },
       {
-        name: 'Invoices',
+        name: 'Example',
         href: `/invoices`,
         icon: HiOutlineDocumentSearch,
         current: pathname.startsWith('/invoices')
-      },
-      {
-        name: 'Customers',
-        href: `/customers`,
-        icon: HiOutlineUserGroup,
-        current: pathname.includes('/customers')
-      },
-      {
-        name: 'Payments',
-        href: `/payments`,
-        icon: HiOutlineCash,
-        current: pathname.startsWith('/payments')
       },
       {
         name: 'Documentation',
@@ -108,7 +94,7 @@ const SidebarLayout = ({ children }: Props) => {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+                <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto custom-scrollbar-dark">
                   <div className="flex-shrink-0 flex items-center px-4">
                     <img className="h-8 w-auto" src="/img/logo-white.svg" alt="Workflow" />
                   </div>
@@ -149,11 +135,11 @@ const SidebarLayout = ({ children }: Props) => {
         {/* Static sidebar for desktop */}
         <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
           <div className="flex-1 flex flex-col min-h-0 bg-ui-700">
-            <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+            <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto custom-scrollbar-dark">
               <div className="flex items-center flex-shrink-0 px-4">
                 <img className="h-6 w-auto" src="/img/logo-white.svg" alt="Apideck" />
               </div>
-              <span className="text-xs text-white px-4 pt-1">Accounting Sample</span>
+              <span className="text-xs text-white px-4 pt-1">Sample Starter Kit</span>
               <div className="flex-shrink-0 flex border-b border-ui-600 px-3 py-4">
                 <SelectConnection />
               </div>
@@ -165,7 +151,7 @@ const SidebarLayout = ({ children }: Props) => {
                         target={item.external ? '_blank' : '_self'}
                         className={classNames(
                           item.current
-                            ? 'bg-ui-600 text-white border-primary-600'
+                            ? 'bg-ui-600 text-white border-primary-500'
                             : 'text-white hover:bg-ui-500 border-transparent',
                           'group flex items-center justify-between px-3 py-2.5 text-sm rounded border-l-4 group'
                         )}

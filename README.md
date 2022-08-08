@@ -1,10 +1,10 @@
-# Accounting - Integrate accounting data with Apideck
+# Sample Starter Kit
 
 <img alt="Logo" align="right" src="./public/img/logo.png" width="10%" />
 
-#### A sample project for viewing and managing accounting data with the [Apideck Accounting API](https://developers.apideck.com/apis/accounting/reference).
+#### A starter kit for building projects with the Unified APIs of [Apideck](https://developers.apideck.com/).
 
-The Accounting API is a single API to push and query accounting data from +5 connectors. In this sample project, we use the [Apideck Node SDK](https://www.npmjs.com/package/@apideck/node) to create a accounting tool that allows you to manage invoices and customers from multiple services (e.g., QuickBooks, MYOB, Xero, etc.)
+Use a single API to push and query data from multiple connectors. In this starter kit, we use the [Apideck Node SDK](https://www.npmjs.com/package/@apideck/node) to create a session and fetch data from different connectors.
 <br>
 <br>
 
@@ -18,20 +18,23 @@ The Accounting API is a single API to push and query accounting data from +5 con
 
 ### Installing the sample
 
-This project uses the Accounting API with the Node SDK. Visit https://developers.apideck.com/apis/accounting/reference for documentation of the API and https://github.com/apideck-libraries/apideck-node for documentation about the SDK.
+This project uses the Accounting API as an example with the Node SDK. Visit https://developers.apideck.com/apis/accounting/reference for documentation of the API and https://github.com/apideck-libraries/apideck-node for documentation about the SDK.
 
-#### Step 1: Enable the accounting connectors
+To use a different API, for example CRM, you could simple switch the `UNIFIED_API` variable in `SelectConnection.tsx` and in `api/vault/connections.ts` from `accounting` to `crm`.
 
-Login to Apideck and enable the accounting connectors you would like to make available to your customers.
+The `useInvoices` is an example on how to fetch invoices with the Accounting API. This code can be removed or replaced.
 
-You can find the overview of accounting connectors here: https://platform.apideck.com/configuration/accounting.
+#### Step 1: Enable connectors
+
+Login to Apideck and enable the connectors you would like to make available to your customers.
+
+You can find the overview of connectors here: https://platform.apideck.com/configuration.
 
 #### Step 2: Update your environment variables
 
 - Copy `.env.example` and create a `.env.local` file
 - Add your API key: `NEXT_PUBLIC_API_KEY=<your-api-key>`
 - Add your Application ID: `NEXT_PUBLIC_APP_ID=<your-app-id>`
-- Your env should also include `NEXT_PUBLIC_API_URL=https://unify.apideck.com`
 
 Note: You can find your credentials in the admin: https://platform.apideck.com/configuration/api-keys
 
@@ -53,8 +56,6 @@ You should now be able to load and manage the invoices, customers, and more of t
 
 Runs `next dev` which starts the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-<img alt="Screenshot" src="./public/img/screenshot.jpg" />
 
 #### `yarn build`
 

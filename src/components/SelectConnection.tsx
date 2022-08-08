@@ -8,6 +8,8 @@ import useSWR from 'swr'
 import { useSession } from 'utils/useSession'
 import { useState } from 'react'
 
+const UNIFIED_API = 'accounting' // Replace with Apideck API ID to filter connections by API. Leave blank to fetch all connections.
+
 const SelectConnection = () => {
   const { setConnection, connection } = useConnection()
   const { session } = useSession()
@@ -46,9 +48,11 @@ const SelectConnection = () => {
             <Menu.Button className="bg-ui-600 text-white w-full flex items-center justify-between px-4 py-2 text-sm font-medium border rounded-md shadow-sm border-ui-500 group hover:bg-ui-500 focus:outline-none">
               <div className="flex items-center">
                 {!isLoading && connection?.icon && (
-                  <div className="w-6 h-6 mr-2">
+                  <div className="w-6 h-6 -ml-0.5 mr-2.5">
                     <img
-                      className={`rounded-full ${isLoading ? 'animate-spin opacity-20' : ''}`}
+                      className={`rounded-full ring-2 ring-ui-400 ${
+                        isLoading ? 'animate-spin opacity-20' : ''
+                      }`}
                       src={!isLoading && connection?.icon ? connection?.icon : '/img/logo.png'}
                       alt={connection.name}
                       height={28}
@@ -79,7 +83,8 @@ const SelectConnection = () => {
             >
               <Menu.Items
                 static
-                className="absolute right-0 z-10 w-full mt-2 origin-top-right bg-white border divide-y rounded-md outline-none border-cool-gray-200 divide-cool-gray-100"
+                className="absolute custom-scrollbar-dark max-h-96 overflow-y-auto right-0 z-10 w-full mt-2 origin-top-right backdrop-blur-md bg-ui-500/40 border divide-y rounded-md outline-none border-ui-500 divide-ui-500"
+                style={{ scrollbarColor: 'red' }}
               >
                 <div className="py-1">
                   {connections?.data?.map((connection: Connection, i: number) => {
@@ -89,14 +94,14 @@ const SelectConnection = () => {
                           <div
                             onClick={() => selectConnection(connection)}
                             className={`${
-                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-600'
-                            } flex items-center justify-between min-w-0 mx-2 cursor-pointer rounded-md py-0.5 overflow-hidden ${
+                              active ? 'backdrop-blur-lg bg-ui-500/50 transition' : 'bg-none'
+                            } flex items-center justify-between min-w-0 px-2 cursor-pointer py-0.5 overflow-hidden ${
                               connection.enabled ? '' : 'opacity-60'
                             }`}
                           >
                             <div className="flex p-2">
                               <img
-                                className="rounded-sm"
+                                className="rounded-full ring-ui-400 ring-2"
                                 src={connection.icon}
                                 alt={connection.name}
                                 height={28}
@@ -104,13 +109,13 @@ const SelectConnection = () => {
                               />
                             </div>
                             <span className="flex-1 min-w-0">
-                              <span className="text-sm font-medium text-gray-900 truncate">
+                              <span className="text-sm ml-1 text-white truncate">
                                 {connection.name}
                               </span>
                             </span>
 
                             <span
-                              className={`inline-block w-2.5 h-2.5 mr-2 rounded-full ring-2 ring-white ${statusColor(
+                              className={`inline-block w-2.5 h-2.5 mr-2 rounded-full ${statusColor(
                                 connection
                               )}`}
                             ></span>
@@ -131,7 +136,7 @@ const SelectConnection = () => {
           open={true}
           showAttribution={false}
           serviceId={serviceId}
-          unifiedApi={'accounting'}
+          unifiedApi={UNIFIED_API}
           onClose={() => setServiceId(null)}
         />
       )}

@@ -6,8 +6,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const consumerId =
     (query?.consumerId as string) || `demo-accounting-${Math.random()}-${new Date().toISOString()}`
 
-  // basePath: 'https://mock-api.apideck.com/',
   const apideck = new Apideck({
+    // basePath: 'https://mock-api.apideck.com/',
     apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
     appId: `${process.env.NEXT_PUBLIC_APP_ID}`,
     consumerId

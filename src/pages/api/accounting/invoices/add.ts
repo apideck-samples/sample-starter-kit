@@ -10,7 +10,7 @@ interface Params {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { body, query } = req
   const { jwt, serviceId }: Params = query
-  const apideck = init(jwt)
+  const apideck = init(jwt as string)
   const invoice = JSON.parse(body)
 
   const result = await apideck.accounting

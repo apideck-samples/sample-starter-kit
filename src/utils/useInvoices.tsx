@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 
 import { Invoice } from '@apideck/node'
+import { fetcher } from './fetcher'
 import { useConnection } from './useConnections'
 import { usePrevious } from '@apideck/components'
 import { useSession } from './useSession'
@@ -14,8 +15,6 @@ export const useInvoices = () => {
   const prevServiceId = usePrevious(serviceId)
   const prevCursor = usePrevious(cursor)
   const { mutate } = useSWRConfig()
-
-  const fetcher = (...args: any) => fetch(args).then((res) => res.json())
 
   const hasNewCursor = cursor && (!prevServiceId || prevServiceId === serviceId)
   const cursorParams = hasNewCursor ? `&cursor=${cursor}` : ''
@@ -33,7 +32,7 @@ export const useInvoices = () => {
 
   const addInvoice = async (invoice: Invoice) => {
     const response = await fetch(
-      `/api/crm/companies/add?jwt=${session?.jwt}&serviceId=${serviceId}`,
+      `/api/accounting/invoices/add?jwt=${session?.jwt}&serviceId=${serviceId}`,
       {
         method: 'POST',
         body: JSON.stringify(invoice)
@@ -60,12 +59,6 @@ export const useInvoices = () => {
     const prevCursor = data?.meta?.cursors?.previous
     setCursor(prevCursor)
   }
-
-  useEffect(() => {
-    if (prevCursor && prevCursor !== cursor) {
-      // revalidate()
-    }
-  }, [cursor, prevCursor])
 
   return {
     invoices: data?.data,
