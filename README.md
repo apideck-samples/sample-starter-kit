@@ -6,7 +6,6 @@
 
 Use a single API to push and query data from multiple connectors. In this starter kit, we use the [Apideck Node SDK](https://www.npmjs.com/package/@apideck/node) to create a session and fetch data from different connectors.
 <br>
-<br>
 
 ## Quick overview
 
@@ -18,9 +17,7 @@ npx create-next-app --example https://github.com/apideck-samples/sample-starter-
 yarn create next-app --example https://github.com/apideck-samples/sample-starter-kit
 ```
 
-<br>
 <img alt="Screenshot" src="./public/img/screenshot.png" width="100%" />
-<br>
 
 ## Getting started
 
@@ -32,7 +29,7 @@ yarn create next-app --example https://github.com/apideck-samples/sample-starter
 
 ### Installing the sample
 
-This project uses the Accounting API as an example with the Node SDK. Visit https://developers.apideck.com/apis/accounting/reference for documentation of the API and https://github.com/apideck-libraries/apideck-node for documentation about the SDK.
+This project uses the Accounting API as an example with the Node SDK. Visit [Accounting Reference](https://developers.apideck.com/apis/accounting/reference) for documentation of the API and [Apideck Node](https://www.npmjs.com/package/@apideck/node) for documentation about the SDK.
 
 To use a different API, for example CRM, you could simple switch the `UNIFIED_API` variable in `SelectConnection.tsx` and in `api/vault/connections.ts` from `accounting` to `crm`.
 
