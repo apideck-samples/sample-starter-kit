@@ -8,6 +8,20 @@ Use a single API to push and query data from multiple connectors. In this starte
 <br>
 <br>
 
+## Quick overview
+
+Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the starter kit:
+
+```bash
+npx create-next-app --example https://github.com/apideck-samples/sample-starter-kit
+# or
+yarn create next-app --example https://github.com/apideck-samples/sample-starter-kit
+```
+
+<br>
+<img alt="Screenshot" src="./public/img/screenshot.png" width="100%" />
+<br>
+
 ## Getting started
 
 ### Requirements
