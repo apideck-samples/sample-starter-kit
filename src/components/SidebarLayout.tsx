@@ -1,15 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, ReactNode, useMemo, useState } from 'react'
+import { Fragment, ReactNode, useState } from 'react'
 import {
+  HiHome,
   HiMenu,
   HiOutlineBookOpen,
-  HiOutlineDocumentSearch,
   HiOutlineExternalLink,
+  HiOutlineUserGroup,
   HiX
 } from 'react-icons/hi'
 
 import ConsumerDropdown from './ConsumerDropdown'
-import { FiBarChart2 } from 'react-icons/fi'
+import { FaMagic } from 'react-icons/fa'
 import Link from 'next/link'
 import SelectConnection from './SelectConnection'
 import classNames from 'classnames'
@@ -19,34 +20,34 @@ interface Props {
   children: ReactNode
 }
 
+const items = [
+  {
+    name: 'Home',
+    href: '/',
+    icon: HiHome
+  },
+  {
+    name: 'Customers (example)',
+    href: `/customers`,
+    icon: HiOutlineUserGroup
+  },
+  {
+    name: 'More samples',
+    href: 'https://www.apideck.com/samples',
+    icon: FaMagic,
+    external: true
+  },
+  {
+    name: 'Documentation',
+    href: 'https://developers.apideck.com',
+    icon: HiOutlineBookOpen,
+    external: true
+  }
+]
+
 const SidebarLayout = ({ children }: Props) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { pathname } = useRouter()
-
-  const navigation = useMemo(() => {
-    const items = [
-      {
-        name: 'Dashboard',
-        href: '/',
-        icon: FiBarChart2,
-        current: pathname === '/'
-      },
-      {
-        name: 'Example',
-        href: `/invoices`,
-        icon: HiOutlineDocumentSearch,
-        current: pathname.startsWith('/invoices')
-      },
-      {
-        name: 'Documentation',
-        href: 'https://developers.apideck.com/apis/accounting/reference',
-        icon: HiOutlineBookOpen,
-        current: false,
-        external: true
-      }
-    ]
-    return items
-  }, [pathname])
 
   return (
     <>
@@ -101,14 +102,14 @@ const SidebarLayout = ({ children }: Props) => {
                   <div className="flex-shrink-0 flex border-b border-ui-600 px-3 py-4">
                     <SelectConnection />
                   </div>
-                  <nav className="mt-5 px-2 space-y-1" suppressHydrationWarning={true}>
-                    {navigation.map((item) => {
+                  <nav className="mt-5 px-2 space-y-1">
+                    {items.map((item) => {
                       return (
                         <Link key={item.name} href={item.href}>
                           <a
                             target={item.external ? '_blank' : '_self'}
                             className={classNames(
-                              item.current
+                              pathname === item.href
                                 ? 'bg-ui-600 text-white'
                                 : 'text-white hover:bg-ui-600 hover:bg-opacity-75',
                               'group flex items-center px-2 py-2 text-base font-medium rounded-md'
@@ -143,14 +144,14 @@ const SidebarLayout = ({ children }: Props) => {
               <div className="flex-shrink-0 flex border-b border-ui-600 px-3 py-4">
                 <SelectConnection />
               </div>
-              <nav className="mt-5 flex-1 px-3 space-y-1" suppressHydrationWarning={true}>
-                {navigation.map((item) => {
+              <nav className="mt-5 flex-1 px-3 space-y-1">
+                {items.map((item) => {
                   return (
                     <Link key={item.name} href={item.href}>
                       <a
                         target={item.external ? '_blank' : '_self'}
                         className={classNames(
-                          item.current
+                          pathname === item.href
                             ? 'bg-ui-600 text-white border-primary-500'
                             : 'text-white hover:bg-ui-500 border-transparent',
                           'group flex items-center justify-between px-3 py-2.5 text-sm rounded border-l-4 group'
@@ -160,7 +161,9 @@ const SidebarLayout = ({ children }: Props) => {
                           {item.icon && (
                             <item.icon
                               className={classNames(
-                                item.current ? 'text-white' : 'text-ui-300 group-hover:text-ui-200',
+                                pathname === item.href
+                                  ? 'text-white'
+                                  : 'text-ui-300 group-hover:text-ui-200',
                                 'mr-3 flex-shrink-0 h-5 w-5'
                               )}
                               aria-hidden="true"
@@ -178,7 +181,6 @@ const SidebarLayout = ({ children }: Props) => {
               </nav>
             </div>
             <div className="flex-shrink-0 flex border-t border-ui-600 p-2 min-h-[69px]">
-              {/* <AccountDropdown /> */}
               <ConsumerDropdown />
             </div>
           </div>

@@ -3,32 +3,18 @@ import { Menu, Transition } from '@headlessui/react'
 import { Connection } from '@apideck/node'
 import Spinner from './Spinner'
 import { Vault } from '@apideck/react-vault'
-import { useConnection } from 'utils'
-import useSWR from 'swr'
+import { useConnections } from 'utils/useConnections'
 import { useSession } from 'utils/useSession'
 import { useState } from 'react'
 
-const UNIFIED_API = 'accounting' // Replace with Apideck API ID to filter connections by API. Leave blank to fetch all connections.
-
 const SelectConnection = () => {
-  const { setConnection, connection } = useConnection()
-  const { session } = useSession()
+  const { setConnectionId, connection, connections, isLoading } = useConnections()
+  const { token } = useSession()
   const [serviceId, setServiceId] = useState<string | null>(null)
-
-  const getConnections = async (url: string) => {
-    const response = await fetch(url)
-    return await response.json()
-  }
-
-  const { data: connections, error } = useSWR(
-    session?.jwt ? `/api/vault/connections?jwt=${session?.jwt}` : null,
-    getConnections
-  )
-  const isLoading = session && !connections && !error
 
   const selectConnection = async (connection: Connection) => {
     if (connection.state === 'callable') {
-      setConnection(connection)
+      setConnectionId(connection.id)
     } else {
       setServiceId(connection.service_id as string)
     }
@@ -83,11 +69,10 @@ const SelectConnection = () => {
             >
               <Menu.Items
                 static
-                className="absolute custom-scrollbar-dark max-h-96 overflow-y-auto right-0 z-10 w-full mt-2 origin-top-right backdrop-blur-md bg-ui-500/40 border divide-y rounded-md outline-none border-ui-500 divide-ui-500"
-                style={{ scrollbarColor: 'red' }}
+                className="absolute custom-scrollbar-dark right-0 z-10 w-full mt-2 origin-top-right backdrop-blur-md bg-ui-500/40 border divide-y rounded-md outline-none border-ui-500 divide-ui-500"
               >
                 <div className="py-1">
-                  {connections?.data?.map((connection: Connection, i: number) => {
+                  {connections?.map((connection: Connection, i: number) => {
                     return (
                       <Menu.Item key={i}>
                         {({ active }: { active: boolean }) => (
@@ -130,13 +115,13 @@ const SelectConnection = () => {
           </>
         )}
       </Menu>
-      {session?.jwt && serviceId && (
+      {token && serviceId && (
         <Vault
-          token={session.jwt}
+          token={token}
           open={true}
           showAttribution={false}
           serviceId={serviceId}
-          unifiedApi={UNIFIED_API}
+          unifiedApi={'accounting'}
           onClose={() => setServiceId(null)}
         />
       )}

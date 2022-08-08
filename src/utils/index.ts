@@ -1,6 +1,6 @@
 export { createVaultSession } from './createVaultSession'
 export { fetcher } from './fetcher'
-export { ConnectionsProvider, useConnection } from './useConnections'
-export { useInvoices } from './useInvoices'
+export { ConnectionsProvider, useConnections } from './useConnections'
+export { useCustomers } from './useCustomers'
 export { SessionProvider, useSession } from './useSession'
 export { withSession } from './withSession'
