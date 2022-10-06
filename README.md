@@ -44,7 +44,7 @@ You can find the overview of connectors here: https://platform.apideck.com/confi
 #### Step 2: Update your environment variables
 
 - Copy `.env.example` and create a `.env.local` file
-- Add your API key: `NEXT_PUBLIC_API_KEY=<your-api-key>`
+- Add your API key: `APIDECK_API_KEY=<your-api-key>`
 - Add your Application ID: `NEXT_PUBLIC_APP_ID=<your-app-id>`
 
 Note: You can find your credentials in the admin: https://platform.apideck.com/configuration/api-keys

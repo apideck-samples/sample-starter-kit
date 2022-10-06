@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const apideck = new Apideck({
     // basePath: 'https://mock-api.apideck.com/',
-    apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
+    apiKey: `${process.env.APIDECK_API_KEY}`,
     appId: `${process.env.NEXT_PUBLIC_APP_ID}`,
     consumerId
   })
