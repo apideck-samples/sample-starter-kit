@@ -9,12 +9,12 @@ import {
   HiX
 } from 'react-icons/hi'
 
-import ConsumerDropdown from './ConsumerDropdown'
-import { FaMagic } from 'react-icons/fa'
-import Link from 'next/link'
-import SelectConnection from './SelectConnection'
 import classNames from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { FaMagic } from 'react-icons/fa'
+import ConsumerDropdown from './ConsumerDropdown'
+import SelectConnection from './SelectConnection'
 
 interface Props {
   children: ReactNode
@@ -105,18 +105,18 @@ const SidebarLayout = ({ children }: Props) => {
                   <nav className="mt-5 px-2 space-y-1">
                     {items.map((item) => {
                       return (
-                        <Link key={item.name} href={item.href}>
-                          <a
-                            target={item.external ? '_blank' : '_self'}
-                            className={classNames(
-                              pathname === item.href
-                                ? 'bg-ui-600 text-white'
-                                : 'text-white hover:bg-ui-600 hover:bg-opacity-75',
-                              'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                            )}
-                          >
-                            {item.name}
-                          </a>
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          target={item.external ? '_blank' : '_self'}
+                          className={classNames(
+                            pathname === item.href
+                              ? 'bg-ui-600 text-white'
+                              : 'text-white hover:bg-ui-600 hover:bg-opacity-75',
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                          )}
+                        >
+                          {item.name}
                         </Link>
                       )
                     })}
@@ -147,34 +147,34 @@ const SidebarLayout = ({ children }: Props) => {
               <nav className="mt-5 flex-1 px-3 space-y-1">
                 {items.map((item) => {
                   return (
-                    <Link key={item.name} href={item.href}>
-                      <a
-                        target={item.external ? '_blank' : '_self'}
-                        className={classNames(
-                          pathname === item.href
-                            ? 'bg-ui-600 text-white border-primary-500'
-                            : 'text-white hover:bg-ui-500 border-transparent',
-                          'group flex items-center justify-between px-3 py-2.5 text-sm rounded border-l-4 group'
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      target={item.external ? '_blank' : '_self'}
+                      className={classNames(
+                        pathname === item.href
+                          ? 'bg-ui-600 text-white border-primary-500'
+                          : 'text-white hover:bg-ui-500 border-transparent',
+                        'group flex items-center justify-between px-3 py-2.5 text-sm rounded border-l-4 group'
+                      )}
+                    >
+                      <span className="flex items-center">
+                        {item.icon && (
+                          <item.icon
+                            className={classNames(
+                              pathname === item.href
+                                ? 'text-white'
+                                : 'text-ui-300 group-hover:text-ui-200',
+                              'mr-3 flex-shrink-0 h-5 w-5'
+                            )}
+                            aria-hidden="true"
+                          />
                         )}
-                      >
-                        <span className="flex items-center">
-                          {item.icon && (
-                            <item.icon
-                              className={classNames(
-                                pathname === item.href
-                                  ? 'text-white'
-                                  : 'text-ui-300 group-hover:text-ui-200',
-                                'mr-3 flex-shrink-0 h-5 w-5'
-                              )}
-                              aria-hidden="true"
-                            />
-                          )}
-                          {item.name}
-                        </span>
-                        {item.external && (
-                          <HiOutlineExternalLink className="text-ui-200 h-4 w-4 opacity-0 group-hover:opacity-100" />
-                        )}
-                      </a>
+                        {item.name}
+                      </span>
+                      {item.external && (
+                        <HiOutlineExternalLink className="text-ui-200 h-4 w-4 opacity-0 group-hover:opacity-100" />
+                      )}
                     </Link>
                   )
                 })}
