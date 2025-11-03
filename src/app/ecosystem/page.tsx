@@ -8,7 +8,7 @@ import { HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 const ecosystems = [
   {
     name: 'Perks Novo',
-    url: 'https://perks.novo.co/?embed=true'
+    url: 'https://perks.novo.co/'
   },
   {
     name: 'Aikido Security',
@@ -113,7 +113,7 @@ export default function EcosystemPage() {
           )}
           <iframe
             key={currentEcosystem.url}
-            src={currentEcosystem.url}
+            src={`${currentEcosystem.url}?embed=true`}
             className="w-full h-full border-0"
             title={currentEcosystem.name}
             onLoad={handleIframeLoad}

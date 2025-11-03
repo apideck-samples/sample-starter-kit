@@ -170,7 +170,7 @@ src/
 
 - Interactive carousel showcasing Apideck Ecosystem examples
 - Demonstrates how to embed integration marketplaces inside your own product using iframes
-- Browse through 8+ live ecosystem examples (Aikido, Beekeeper, Personio, etc.)
+- Browse through 10+ live ecosystem examples
 - Full-screen iframe viewer with navigation controls
 - **Note**: Ecosystems are part of [Apideck Ecosystem](https://www.apideck.com/ecosystem), a separate product that allows you to create branded integration marketplaces. This page showcases how you can embed these marketplaces directly into your application.
 
@@ -180,6 +180,52 @@ src/
 - **SelectConnectionGrid** - Visual grid for browsing available integrations
 - **ConsumerDropdown** - Shows consumer metadata in sidebar
 - **SessionPreviewCard** - Displays current session information
+
+## Embedding Apideck Ecosystem in Your Application
+
+If you have an [Apideck Ecosystem](https://www.apideck.com/ecosystem) marketplace, you can embed it into your application using an iframe.
+
+### Getting Your Ecosystem URL
+
+1. Sign up for Apideck Ecosystem at https://www.apideck.com/ecosystem
+2. Create and customize your integration marketplace
+3. Get your unique ecosystem URL (e.g., `https://your-company.apideck.io/`)
+
+### Basic Implementation
+
+```tsx
+<iframe
+  src="https://your-company.apideck.io/?embed=true"
+  width="100%"
+  height="800px"
+  style={{ border: 0 }}
+  title="Integration Marketplace"
+/>
+```
+
+**Important**: Add `?embed=true` query parameter to optimize the display for embedding.
+
+### Full-Page Implementation
+
+```tsx
+'use client'
+
+export default function EcosystemPage() {
+  return (
+    <div className="flex flex-col h-screen">
+      <div className="flex-1 relative overflow-hidden">
+        <iframe
+          src="https://your-company.apideck.io/?embed=true"
+          className="w-full h-full border-0"
+          title="Integration Marketplace"
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+See `src/app/ecosystem/page.tsx` for an example.
 
 ## Resources
 
