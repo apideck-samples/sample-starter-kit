@@ -1,0 +1,13 @@
+echo "🔍 Running type check..."
+yarn type-check || {
+  echo "❌ Type check failed. Please fix the errors before pushing."
+  exit 1
+}
+
+echo "🔍 Running linter..."
+yarn lint || {
+  echo "❌ Linting failed. Please fix the errors before pushing."
+  exit 1
+}
+
+echo "✅ All checks passed!"

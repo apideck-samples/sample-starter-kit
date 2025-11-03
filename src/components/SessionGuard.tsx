@@ -44,7 +44,6 @@ export default function SessionGuard() {
                 onChange={(e) => setUserName(e.currentTarget.value)}
                 value={userName}
                 name="username"
-                placeholder="Username"
               />
             </div>
             <div>
@@ -58,7 +57,6 @@ export default function SessionGuard() {
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 value={email}
                 name="email"
-                placeholder="Email"
               />
             </div>
             <div>
@@ -72,7 +70,6 @@ export default function SessionGuard() {
                 onChange={(e) => setImage(e.currentTarget.value)}
                 value={image}
                 name="image"
-                placeholder="Profile image"
               />
             </div>
             <div>
@@ -87,7 +84,6 @@ export default function SessionGuard() {
                   onChange={(e) => setConsumerId(e.currentTarget.value)}
                   value={consumerId}
                   name="consumerId"
-                  placeholder="Consumer ID"
                   autoFocus={true}
                 />
                 <Button

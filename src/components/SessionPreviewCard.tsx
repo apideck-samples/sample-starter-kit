@@ -65,13 +65,13 @@ export default function SessionPreviewCard() {
             </div>
           </div>
         )}
-        {session.accountName && (
+        {session.consumerMetadata?.accountName && (
           <div className="flex items-center gap-3">
             <HiClock className="w-5 h-5 text-gray-400" />
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400">Account</p>
               <p className="text-sm font-medium text-gray-900 dark:text-white">
-                {session.accountName}
+                {session.consumerMetadata.accountName}
               </p>
             </div>
           </div>
