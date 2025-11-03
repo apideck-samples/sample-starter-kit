@@ -5,15 +5,15 @@
 }
 
 .custom-scrollbar-dark::-webkit-scrollbar-track {
-  @apply bg-ui-400 rounded-tr-md rounded-br-md;
+  @apply bg-gray-400 rounded-tr-md rounded-br-md;
 }
 
 /* Handle */
 .custom-scrollbar-dark::-webkit-scrollbar-thumb {
-  @apply bg-ui-500 rounded-sm;
+  @apply bg-gray-500 rounded-sm;
 }
 
 /* Handle on hover */
 .custom-scrollbar-dark:::-webkit-scrollbar-thumb:hover {
-  @apply bg-ui-600;
+  @apply bg-gray-600;
 }

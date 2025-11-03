@@ -1,23 +1,29 @@
-import { Menu, Transition } from '@headlessui/react'
+'use client'
 
-import { Connection } from '@apideck/node'
+import { Menu, Transition } from '@headlessui/react'
+import { Connection } from '@apideck/unify/models/components'
 import Spinner from './Spinner'
 import { Vault } from '@apideck/react-vault'
-import { useConnections } from 'utils/useConnections'
-import { useSession } from 'utils/useSession'
+import { useConnections } from '@/utils/useConnections'
+import { useSession } from '@/utils/useSession'
 import { useState } from 'react'
 
 const SelectConnection = () => {
-  const { setConnectionId, connection, connections, isLoading } = useConnections()
+  const { setConnectionId, connection, connections, isLoading, refetch } = useConnections()
   const { token } = useSession()
   const [serviceId, setServiceId] = useState<string | null>(null)
 
   const selectConnection = async (connection: Connection) => {
     if (connection.state === 'callable') {
-      setConnectionId(connection.id)
+      setConnectionId(connection.id as string)
     } else {
-      setServiceId(connection.service_id as string)
+      setServiceId(connection.serviceId as string)
     }
+  }
+
+  const handleVaultClose = () => {
+    setServiceId(null)
+    refetch()
   }
 
   const statusColor = (connection: Connection) => {
@@ -65,11 +71,10 @@ const SelectConnection = () => {
               leave="transition ease-in duration-75"
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
-              className="min-w-sm"
             >
               <Menu.Items
                 static
-                className="absolute custom-scrollbar-dark right-0 z-10 w-full mt-2 origin-top-right backdrop-blur-md bg-ui-500/40 border divide-y rounded-md outline-none border-ui-500 divide-ui-500"
+                className="absolute custom-scrollbar-dark right-0 z-10 w-full min-w-sm mt-2 origin-top-right backdrop-blur-md bg-ui-500/40 border divide-y rounded-md outline-none border-ui-500 divide-ui-500"
               >
                 <div className="py-1">
                   {connections?.map((connection: Connection, i: number) => {
@@ -122,7 +127,7 @@ const SelectConnection = () => {
           showAttribution={false}
           serviceId={serviceId}
           unifiedApi={'accounting'}
-          onClose={() => setServiceId(null)}
+          onClose={handleVaultClose}
         />
       )}
     </div>

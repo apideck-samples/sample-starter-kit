@@ -1,19 +1,22 @@
-import { ConsumerMetadata, Session } from 'types/Session'
+'use client'
+
+import { ConsumerMetadata, Session } from '@/types/Session'
 import {
   Dispatch,
   ReactNode,
   SetStateAction,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState
 } from 'react'
 
+import { useToast } from '@apideck/components'
 import camelCaseKeys from 'camelcase-keys-deep'
 import { decode } from 'jsonwebtoken'
+import { useRouter } from 'next/navigation'
 import { useCookieState } from './useCookieState'
-import { useRouter } from 'next/router'
-import { useToast } from '@apideck/components'
 
 type CreateSessionOptions = { consumerId: string; consumerMetadata: ConsumerMetadata }
 
@@ -33,53 +36,69 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
   const { push } = useRouter()
   const { addToast } = useToast()
   const [session, setSession] = useState<Session | null>(null)
-  const [token, setToken] = useCookieState('session', null, {
-    encode: {
+  const [token, setToken] = useCookieState('token', null, {
+    encodeOps: {
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 10 // 10 mins
     }
   })
 
   useEffect(() => {
-    if (token) {
+    if (token && !session) {
       const decoded: any = decode(token)
-      const session = camelCaseKeys(decoded) as Session
+      const decodedSession = camelCaseKeys(decoded) as Session
 
-      setSession({ ...session, jwt: token })
+      setSession({ ...decodedSession, jwt: token })
     }
-  }, [token])
+  }, [token, session])
 
-  const clearSession = () => {
+  const clearSession = useCallback(() => {
     setSession(null)
     setToken(null)
-  }
+  }, [setSession, setToken])
 
   // Creates a test session with a random consumerID
   const createSession = async ({ consumerId, consumerMetadata }: CreateSessionOptions) => {
+    if (!consumerId) {
+      addToast({
+        title: 'Consumer ID is required',
+        description:
+          'Provide a unique ID. Most of the time, this is an ID of your internal data model that represents a user or account in your system.',
+        type: 'warning',
+        closeAfter: 7000
+      })
+      return
+    }
+
     try {
       setIsLoading(true)
       const raw = await fetch(`/api/vault/sessions?consumerId=${consumerId}`, {
         method: 'POST',
         body: JSON.stringify({
-          settings: { sandbox_mode: true },
-          consumer_metadata: {
+          settings: { sandboxMode: true },
+          consumerMetadata: {
             email: consumerMetadata.email,
-            user_name: consumerMetadata.userName,
+            userName: consumerMetadata.userName,
             image: consumerMetadata.image
           }
         })
       })
       const response = await raw.json()
 
-      if (response.error) {
+      if (!raw.ok) {
         addToast({
-          title: response.message,
-          description: response.detail.errors[0].message,
+          title: response.message || 'Session creation failed',
+          description:
+            typeof response.error === 'string'
+              ? response.error
+              : response.error?.message || 'An unexpected error occurred on the server.',
           type: 'error'
         })
         return
       }
 
-      const jwt = response.data.session_token
+      const jwt = response.data?.sessionToken
 
       if (jwt) {
         setToken(jwt)
@@ -89,11 +108,18 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
           type: 'success'
         })
         push('/')
+      } else {
+        addToast({
+          title: 'Session token not found',
+          description:
+            'The session was created successfully, but the session token is missing in the response.',
+          type: 'error'
+        })
       }
     } catch (error: any) {
       addToast({
-        title: 'Something went wrong',
-        description: error?.message || error,
+        title: 'Something went wrong during session creation',
+        description: error?.message || 'A network or parsing error occurred.',
         type: 'error'
       })
     } finally {

@@ -4,7 +4,7 @@
 
 #### A starter kit for building projects with the Unified APIs of [Apideck](https://developers.apideck.com/).
 
-Use a single API to push and query data from multiple connectors. In this starter kit, we use the [Apideck Node SDK](https://www.npmjs.com/package/@apideck/node) to create a session and fetch data from different connectors.
+Use a single API to push and query data from multiple connectors. In this starter kit, we use the [Apideck Unify SDK](https://www.npmjs.com/package/@apideck/unify) to create sessions, manage connections, and fetch data from different connectors.
 <br>
 
 ## Quick overview
@@ -19,6 +19,17 @@ yarn create next-app --example https://github.com/apideck-samples/sample-starter
 
 <img alt="Screenshot" src="./public/img/screenshot.png" width="100%" />
 
+## Tech Stack
+
+- **Next.js 15** - React framework with App Router
+- **React 18** - React with improved performance
+- **TypeScript 5.7** - Type safety
+- **Tailwind CSS 3.4** - Utility-first CSS framework
+- **TanStack Query 5** - Data fetching and state management
+- **Apideck Unify SDK** - Unified API integration
+- **Apideck Components** - Pre-built UI components
+- **Apideck React Vault** - Integration management UI
+
 ## Getting started
 
 ### Requirements
@@ -29,11 +40,20 @@ yarn create next-app --example https://github.com/apideck-samples/sample-starter
 
 ### Installing the sample
 
-This project uses the Accounting API as an example with the Node SDK. Visit [Accounting Reference](https://developers.apideck.com/apis/accounting/reference) for documentation of the API and [Apideck Node](https://www.npmjs.com/package/@apideck/node) for documentation about the SDK.
+This project uses the Accounting API as an example with the Unify SDK. Visit [Accounting Reference](https://developers.apideck.com/apis/accounting/reference) for documentation of the API and [Apideck Unify](https://www.npmjs.com/package/@apideck/unify) for documentation about the SDK.
 
-To use a different API, for example CRM, you could simple switch the `UNIFIED_API` variable in `SelectConnection.tsx` and in `api/vault/connections.ts` from `accounting` to `crm`.
+To use a different API, for example CRM, you could simply switch the `UNIFIED_API` variable in `src/app/api/vault/connections/route.ts` from `accounting` to `crm`.
 
-The `useInvoices` is an example on how to fetch invoices with the Accounting API. This code can be removed or replaced.
+The `useCustomers` hook is an example of how to fetch customers with the Accounting API. This code can be removed or replaced.
+
+### Features
+
+- 🔐 **Session Management** - Create and manage Vault sessions for consumers
+- 🔌 **Connection Grid** - Visual grid interface to browse and select integrations
+- 📊 **Customers Example** - Full CRUD example using the Accounting API
+- 🌐 **Ecosystem Browser** - Interactive carousel showcasing how to embed [Apideck Ecosystem](https://www.apideck.com/ecosystem) marketplaces in your app
+- 🎨 **Dark Mode** - Full dark mode support throughout the application
+- 📱 **Responsive Design** - Mobile-first design that works on all devices
 
 #### Step 1: Enable connectors
 
@@ -53,89 +73,136 @@ Note: You can find your credentials in the admin: https://platform.apideck.com/c
 
 - Install dependencies with `yarn` or `npm install`
 - Run the development server with `yarn dev` or `npm run dev`
-- Visit `http://localhost:3000/` to see if it's running. If you haven't configured any integrations you will see a message.
+- Visit `http://localhost:3000/` to see if it&apos;s running. If you haven&apos;t configured any integrations you will see a message.
 
 #### Step 4: Create a session and add connections
 
 You need to create a Vault session and add/configure at least one accounting connection. Use the button on the `/invalid-session` route to create a test session for a specific consumer (by passing the consumer ID). After creating a session you can click the integrations dropdown in the sidebar to select a connector. Make sure you have the Accounting connectors enabled in the admin: https://platform.apideck.com/configuration/accounting.
 
-You should now be able to load and manage the invoices, customers, and more of the connections you have configured.
+You should now be able to load and manage the customers and more from the connections you have configured.
 
 ## Commands
 
-#### `yarn dev`
+#### `yarn dev` or `npm run dev`
 
 Runs `next dev` which starts the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-#### `yarn build`
+#### `yarn build` or `npm run build`
 
 Runs `next build` which builds the application for production usage
 
-#### `yarn start`
+#### `yarn start` or `npm start`
 
 Runs `next start` which starts a Next.js production server
 
-#### `yarn lint`
+#### `yarn lint` or `npm run lint`
 
-Runs the `eslint` command for all files with the `js`, `ts`, `jsx`, and `tsx` extensions. See the `.eslint.json` file for all configuration settings.
+Runs the Next.js built-in ESLint command for all files.
 
-#### `yarn lint:fix`
+#### `yarn lint:fix` or `npm run lint:fix`
 
-Runs the `eslint` command with the `--fix` flag which tries to automatically fix linting problems.
+Runs the ESLint command with the `--fix` flag which tries to automatically fix linting problems.
 
-#### `yarn lint:cache`
-
-Runs the `eslint` command with the `--cache` flag which only checks the changed files.
-
-#### `yarn lint:format`
+#### `yarn format` or `npm run format`
 
 Runs Prettier which formats all files inside the `src` directory based on the configuration set inside the `.prettierrc` file.
 
-#### `yarn type-check`
+#### `yarn type-check` or `npm run type-check`
 
 Runs the `tsc` command to compile the project and check if it has type errors.
 
-#### `yarn test`
+## Project Structure
 
-Runs the `jest` command which runs all tests
+```
+src/
+├── app/                    # App Router pages and API routes
+│   ├── api/               # API Route Handlers
+│   │   ├── accounting/    # Accounting API endpoints
+│   │   │   └── customers/ # Customer endpoints
+│   │   └── vault/         # Vault API endpoints
+│   │       ├── connections/ # Connections endpoint
+│   │       └── sessions/    # Sessions endpoint
+│   ├── customers/         # Customers page
+│   ├── ecosystem/         # Ecosystem browser page
+│   ├── layout.tsx         # Root layout with providers
+│   └── page.tsx           # Home page with session creation
+├── components/            # React components
+│   ├── customers/         # Customer-specific components
+│   ├── ConsumerDropdown.tsx
+│   ├── Layout.tsx
+│   ├── PageHeading.tsx
+│   ├── SelectConnection.tsx
+│   ├── SelectConnectionGrid.tsx
+│   ├── SessionGuard.tsx
+│   ├── SessionPreviewCard.tsx
+│   └── SidebarLayout.tsx
+├── lib/                   # Utility libraries
+│   └── apideck.ts         # Apideck SDK initialization
+├── providers/             # React context providers
+│   ├── client-providers.tsx
+│   └── query-provider.tsx
+├── styles/                # Global styles
+├── types/                 # TypeScript types
+└── utils/                 # Utility functions and hooks
+    ├── createVaultSession.ts
+    ├── useConnections.tsx
+    ├── useCookieState.tsx
+    ├── useCustomers.tsx
+    └── useSession.tsx
+```
 
-#### `yarn test:watch`
+## Key Features & Pages
 
-Runs the `jest` command with `--watch` flag which runs all tests in watch mode
+### Home Page (`/`)
 
-#### `yarn test:coverage`
+- Session creation form with consumer metadata
+- Session preview card showing active consumer information
+- Quick access to Vault and connection management
 
-Runs the `jest` command with `--coverage` flag which indicates that test coverage information should be collected and reported in the output.
+### Customers Page (`/customers`)
 
-## Commit hooks
+- Grid view of customers from connected accounting integrations
+- Real-time data fetching with TanStack Query
+- Example implementation of Accounting API usage
 
-This project uses [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged) to run linters against staged git files on commit.
+### Ecosystem Page (`/ecosystem`)
 
-#### Pre-commit
+- Interactive carousel showcasing Apideck Ecosystem examples
+- Demonstrates how to embed integration marketplaces inside your own product using iframes
+- Browse through 8+ live ecosystem examples (Aikido, Beekeeper, Personio, etc.)
+- Full-screen iframe viewer with navigation controls
+- **Note**: Ecosystems are part of [Apideck Ecosystem](https://www.apideck.com/ecosystem), a separate product that allows you to create branded integration marketplaces. This page showcases how you can embed these marketplaces directly into your application.
 
-Before each commit we run `eslint` and `prettier` on all staged files.
+### Components
 
-#### Pre-push
-
-Before each push to the repository we run `jest` to check if all tests are passing.
+- **SessionGuard** - Protects routes and ensures valid session
+- **SelectConnectionGrid** - Visual grid for browsing available integrations
+- **ConsumerDropdown** - Shows consumer metadata in sidebar
+- **SessionPreviewCard** - Displays current session information
 
 ## Resources
 
 To learn more, take a look at the following resources:
 
-- [Accounting API](https://www.apideck.com/accounting-api) - info about the Accounting API of Apideck
-- [Accounting API Documentation](https://developers.apideck.com/apis/accounting/reference) - documentation of the Accounting API
-- [Accounting API Explorer](https://developers.apideck.com/apis/accounting/api-explorer) - API explorer to test endpoints of the Accounting API
-- [Vault API Documentation](https://developers.apideck.com/apis/vault/reference) - documentation of the Vault API
-- [Vault API Explorer](https://developers.apideck.com/apis/vault/api-explorer) - API explorer to test endpoints of the Vault API
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
-- [Vercel Serverless Functions](https://vercel.com/docs/serverless-functions/introduction) - learn more about serverless functions by using the `/pages/api` directory in Next.js projects
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
-- [TypeScript](https://www.typescriptlang.org/) - learn about TypeScript
-- [Tailwind CSS](https://tailwindcss.com/) - learn about the utility-first CSS framework Tailwind
-- [Jest](https://jestjs.io/) - learn about Jest, the JavaScript Testing Framework
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - learn about testing React components with React Testing Library
-- [ESLint](https://eslint.org/) - learn about analyzing code with ESLint
-- [Prettier](https://eslint.org/) - learn about formatting code with Prettier
-- [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - a Prettier extension for Visual Studio Code
+### Apideck Resources
+
+- [Apideck Unify SDK](https://www.npmjs.com/package/@apideck/unify) - TypeScript/JavaScript SDK for Apideck Unify
+- [Apideck Ecosystem](https://www.apideck.com/ecosystem) - Create branded integration marketplaces
+- [Accounting API](https://www.apideck.com/accounting-api) - Info about the Accounting API of Apideck
+- [Accounting API Documentation](https://developers.apideck.com/apis/accounting/reference) - Documentation of the Accounting API
+- [Accounting API Explorer](https://developers.apideck.com/apis/accounting/api-explorer) - API explorer to test endpoints
+- [Vault API Documentation](https://developers.apideck.com/apis/vault/reference) - Documentation of the Vault API
+- [Vault API Explorer](https://developers.apideck.com/apis/vault/api-explorer) - API explorer to test Vault endpoints
+- [Apideck Components](https://www.npmjs.com/package/@apideck/components) - Pre-built React UI components
+- [Apideck React Vault](https://www.npmjs.com/package/@apideck/react-vault) - React component for Vault integration
+
+### Development Resources
+
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
+- [Next.js App Router](https://nextjs.org/docs/app) - Learn about the App Router
+- [TypeScript](https://www.typescriptlang.org/) - Learn about TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) - Learn about the utility-first CSS framework
+- [TanStack Query](https://tanstack.com/query/latest) - Learn about powerful data fetching
+- [ESLint](https://eslint.org/) - Learn about analyzing code with ESLint
+- [Prettier](https://prettier.io/) - Learn about formatting code with Prettier

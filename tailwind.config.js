@@ -1,12 +1,14 @@
+/** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx}',
-    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/utils/**/*.{js,ts,jsx,tsx}',
-    './node_modules/@apideck/components/**/*.js'
+    './node_modules/@apideck/components/**/*.js',
+    './node_modules/@apideck/react-vault/**/*.js'
   ],
   darkMode: 'class',
   theme: {
@@ -15,10 +17,10 @@ module.exports = {
         'spin-slow': 'spin 3s linear infinite'
       },
       fontFamily: {
-        sans: ['var(--font-basier-circle)', ...defaultTheme.fontFamily.sans]
+        sans: ['var(--font-basier-circle)', ...defaultTheme.fontFamily.sans],
+        'basier-circle': ['var(--font-basier-circle)', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        ...colors,
         gray: colors.slate,
         primary: {
           50: '#f6f7fe',
@@ -32,11 +34,17 @@ module.exports = {
           800: '#5922b9',
           900: '#5a1aa8'
         },
-        secondary: colors.cyan,
-
-        // main: '#6255E1',
-        // 'main-dark': '#5148DE',
-        // 'main-light': '$8E7FF4',
+        ui: {
+          200: '#878ac6',
+          300: '#545592',
+          400: '#414386',
+          500: '#292d6a',
+          600: '#21255c',
+          700: '#080b4b',
+          800: '#04072d'
+        },
+        'apideck-primary': '#8a13f2',
+        'apideck-secondary': '#5c51ce',
         background: '#130E2E'
       },
       maxWidth: {
@@ -54,10 +62,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/typography')
-  ]
+  plugins: [require('@tailwindcss/forms')]
 }

@@ -1,5 +1,6 @@
+'use client'
+
 import Layout from './Layout'
-import { NextPage } from 'next'
 import type { ReactNode } from 'react'
 import Spinner from './Spinner'
 
@@ -7,7 +8,7 @@ interface Props {
   children?: ReactNode
 }
 
-const PageLoader: NextPage = ({ children }: Props) => {
+function PageLoader({ children }: Props) {
   return (
     <Layout>
       {children ? (

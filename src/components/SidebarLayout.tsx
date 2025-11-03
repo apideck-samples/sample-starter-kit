@@ -1,3 +1,5 @@
+'use client'
+
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, ReactNode, useState } from 'react'
 import {
@@ -5,14 +7,15 @@ import {
   HiMenu,
   HiOutlineBookOpen,
   HiOutlineExternalLink,
+  HiOutlinePlus,
   HiOutlineUserGroup,
+  HiOutlineViewGrid,
   HiX
 } from 'react-icons/hi'
 
 import classNames from 'classnames'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { FaMagic } from 'react-icons/fa'
+import { usePathname } from 'next/navigation'
 import ConsumerDropdown from './ConsumerDropdown'
 import SelectConnection from './SelectConnection'
 
@@ -32,9 +35,14 @@ const items = [
     icon: HiOutlineUserGroup
   },
   {
+    name: 'Ecosystem',
+    href: `/ecosystem`,
+    icon: HiOutlineViewGrid
+  },
+  {
     name: 'More samples',
     href: 'https://www.apideck.com/samples',
-    icon: FaMagic,
+    icon: HiOutlinePlus,
     external: true
   },
   {
@@ -47,12 +55,12 @@ const items = [
 
 const SidebarLayout = ({ children }: Props) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { pathname } = useRouter()
+  const pathname = usePathname()
 
   return (
     <>
       <div data-testid="sidebar">
-        <Transition.Root show={sidebarOpen} as={Fragment}>
+        <Transition show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-30 md:hidden" onClose={setSidebarOpen}>
             <Transition.Child
               as={Fragment}
@@ -63,7 +71,7 @@ const SidebarLayout = ({ children }: Props) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+              <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
             </Transition.Child>
             <Transition.Child
               as={Fragment}
@@ -131,7 +139,7 @@ const SidebarLayout = ({ children }: Props) => {
               {/* Force sidebar to shrink to fit close icon */}
             </div>
           </Dialog>
-        </Transition.Root>
+        </Transition>
 
         {/* Static sidebar for desktop */}
         <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
